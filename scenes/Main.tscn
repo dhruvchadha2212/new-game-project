@@ -1,0 +1,45 @@
+[gd_scene load_steps=8 format=3 uid="uid://qm1ilyylwca5"]
+
+[ext_resource type="Script" uid="uid://wat4nuk8i82f" path="res://scripts/cube_spawner.gd" id="1_0bbpv"]
+[ext_resource type="Script" uid="uid://u1gm6ms462um" path="res://scripts/camera.gd" id="1_elqb8"]
+[ext_resource type="PackedScene" uid="uid://bhr7ioc0ky5rl" path="res://scenes/Cube.tscn" id="2_rarhs"]
+[ext_resource type="PackedScene" uid="uid://l1cdwxr6isrx" path="res://scenes/CanvasLayer.tscn" id="2_rvslj"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_4xowi"]
+sky_horizon_color = Color(0.662243, 0.671743, 0.686743, 1)
+ground_horizon_color = Color(0.662243, 0.671743, 0.686743, 1)
+
+[sub_resource type="Sky" id="Sky_a202f"]
+sky_material = SubResource("ProceduralSkyMaterial_4xowi")
+
+[sub_resource type="Environment" id="Environment_noarx"]
+background_mode = 2
+sky = SubResource("Sky_a202f")
+tonemap_mode = 2
+glow_enabled = true
+
+[node name="Main" type="Node3D"]
+script = ExtResource("1_0bbpv")
+cube_scene = ExtResource("2_rarhs")
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_noarx")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(-0.866025, -0.433013, 0.25, 0.484159, -0.601378, 0.635559, -0.12486, 0.67145, 0.730456, 0, 4.19152, 0)
+shadow_enabled = true
+
+[node name="Camera3D" type="Camera3D" parent="."]
+unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.43769, 4.02359)
+script = ExtResource("1_elqb8")
+
+[node name="Control" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="CanvasLayer" parent="Control" instance=ExtResource("2_rvslj")]
+
+[node name="CubeContainer" type="Node" parent="."]

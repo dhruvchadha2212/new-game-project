@@ -1,0 +1,10 @@
+[gd_scene format=3 uid="uid://l1cdwxr6isrx"]
+
+[node name="CanvasLayer" type="CanvasLayer"]
+
+[node name="AddCubeButton" type="Button" parent="."]
+offset_left = 912.0
+offset_top = 71.0
+offset_right = 1060.0
+offset_bottom = 144.0
+text = "ADD CUBE"
