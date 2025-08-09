@@ -1,9 +1,10 @@
-[gd_scene load_steps=8 format=3 uid="uid://qm1ilyylwca5"]
+[gd_scene load_steps=9 format=3 uid="uid://qm1ilyylwca5"]
 
 [ext_resource type="Script" uid="uid://wat4nuk8i82f" path="res://scripts/cube_spawner.gd" id="1_0bbpv"]
 [ext_resource type="Script" uid="uid://u1gm6ms462um" path="res://scripts/camera.gd" id="1_elqb8"]
-[ext_resource type="PackedScene" uid="uid://bhr7ioc0ky5rl" path="res://scenes/Cube.tscn" id="2_rarhs"]
+[ext_resource type="PackedScene" uid="uid://ddppfk6w8r3gh" path="res://scenes/Cube.tscn" id="2_rarhs"]
 [ext_resource type="PackedScene" uid="uid://l1cdwxr6isrx" path="res://scenes/CanvasLayer.tscn" id="2_rvslj"]
+[ext_resource type="Script" uid="uid://be7u6hyw8y28l" path="res://scripts/drag_manager.gd" id="5_vcsgt"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_4xowi"]
 sky_horizon_color = Color(0.662243, 0.671743, 0.686743, 1)
@@ -43,3 +44,6 @@ offset_bottom = 40.0
 [node name="CanvasLayer" parent="Control" instance=ExtResource("2_rvslj")]
 
 [node name="CubeContainer" type="Node" parent="."]
+
+[node name="DragManager" type="Node3D" parent="."]
+script = ExtResource("5_vcsgt")

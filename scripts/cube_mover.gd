@@ -1,18 +1,14 @@
-extends CSGCombiner3D
+extends StaticBody3D
 
 var camera: Camera3D
 
 var dragging = false
 
-func _input(event):
-	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT:
-		if event.pressed:
-			# Check if the mouse is over this cube
-			if _is_mouse_over():
-				dragging = true
-		else:
-			# Mouse button released
-			dragging = false
+func on_drag_start():
+	dragging = true
+
+func on_drag_end():
+	dragging = false
 
 func _process(delta):
 	if dragging:
@@ -31,26 +27,3 @@ func _process(delta):
 				round(intersection.z)
 			)
 			global_position = snapped_pos
-
-func _is_mouse_over() -> bool:
-	var mouse_pos = get_viewport().get_mouse_position()
-	var space_state = get_world_3d().direct_space_state
-
-# Define ray start and end points
-	var origin = camera.project_ray_origin(mouse_pos)
-	var end = origin + camera.project_ray_normal(mouse_pos) * 1000  # 1000 is the ray length
-
-	# Create query parameters instance
-	var query = PhysicsRayQueryParameters3D.create(origin, end)
-
-	# Optional: exclude self or other objects
-	# query.exclude = [self]
-
-	# Optional: set collision mask if needed
-	# query.collision_mask = 1
-
-	# Perform the raycast
-	var result = space_state.intersect_ray(query)
-
-	# Check if we hit this cube
-	return result and result.collider == self
