@@ -8,3 +8,10 @@ offset_top = 71.0
 offset_right = 1060.0
 offset_bottom = 144.0
 text = "ADD CUBE"
+
+[node name="PlaceWireButton" type="Button" parent="."]
+offset_left = 908.0
+offset_top = 203.0
+offset_right = 1063.0
+offset_bottom = 271.0
+text = "PLACE WIRE"

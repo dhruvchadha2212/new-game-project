@@ -6,8 +6,15 @@ extends Node3D
 
 func _ready():
 	$Control/CanvasLayer/AddCubeButton.pressed.connect(_on_add_cube_button_pressed)
+	$Control/CanvasLayer/PlaceWireButton.pressed.connect(_on_wire_button_pressed)
+
+
+func _on_wire_button_pressed():
+	Globals.current_mode = Globals.InteractionMode.PLACE_WIRE
+	print("Mode changed to PLACE_WIRE")
 
 func _on_add_cube_button_pressed():
+	Globals.current_mode = Globals.InteractionMode.DRAG
 	var new_cube = cube_scene.instantiate()
 	new_cube.camera = camera
 	cube_container.add_child(new_cube)
