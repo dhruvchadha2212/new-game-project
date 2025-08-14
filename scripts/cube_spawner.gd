@@ -1,23 +1,23 @@
 extends Node3D
 
-@export var cube_scene: PackedScene  # Assign your Cube.tscn here from the inspector
-@onready var cube_container = $CubeContainer  # Replace with your actual cube container node path
-@onready var camera = %Camera3D  # Your camera path
+@export var cube_scene: PackedScene
+@export var cube_container: Node
+@export var camera: Camera3D
 
-func _ready():
-	$Control/CanvasLayer/AddCubeButton.pressed.connect(_on_add_cube_button_pressed)
-	$Control/CanvasLayer/PlaceWireButton.pressed.connect(_on_wire_button_pressed)
-
-
-func _on_wire_button_pressed():
-	Globals.current_mode = Globals.InteractionMode.PLACE_WIRE
-	print("Mode changed to PLACE_WIRE")
-
-func _on_add_cube_button_pressed():
-	Globals.current_mode = Globals.InteractionMode.DRAG
+func spawn_cube(position: Vector3 = Vector3.ZERO):
+	if cube_scene == null or cube_container == null or camera == null:
+		push_error("CubeSpawner is missing a reference!")
+		return
+	
 	var new_cube = cube_scene.instantiate()
 	new_cube.camera = camera
-	cube_container.add_child(new_cube)
+	new_cube.cube_id = Time.get_ticks_msec()
+	new_cube.global_position = Vector3(
+		round(position.x),
+		round(position.y),
+		round(position.z)
+	)
 	
-	# Optionally set the cube at origin or some default position snapped to grid
-	new_cube.global_position = Vector3(0, 0, 0)
+	cube_container.add_child(new_cube)
+	print("Spawned cube with ID:", new_cube.cube_id)
+	return new_cube

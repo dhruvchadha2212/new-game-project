@@ -1,4 +1,4 @@
-[gd_scene format=3 uid="uid://l1cdwxr6isrx"]
+[gd_scene format=3 uid="uid://58oqxqm53yfp"]
 
 [node name="CanvasLayer" type="CanvasLayer"]
 
@@ -15,3 +15,17 @@ offset_top = 203.0
 offset_right = 1063.0
 offset_bottom = 271.0
 text = "PLACE WIRE"
+
+[node name="SaveButton" type="Button" parent="."]
+offset_left = 897.0
+offset_top = 313.0
+offset_right = 977.0
+offset_bottom = 370.0
+text = "SAVE"
+
+[node name="LoadButton" type="Button" parent="."]
+offset_left = 999.0
+offset_top = 313.0
+offset_right = 1075.0
+offset_bottom = 371.0
+text = "LOAD"

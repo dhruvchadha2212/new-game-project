@@ -1,5 +1,6 @@
 extends StaticBody3D
 
+var cube_id: int
 var camera: Camera3D
 var dragging = false
 var connected_wires = []
