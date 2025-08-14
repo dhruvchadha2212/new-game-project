@@ -2,18 +2,18 @@ extends Node3D
 
 @onready var camera: Camera3D = %Camera3D
 @export var wire_scene: PackedScene
-
+@export var wire_container: Node
 var dragged_object: Node = null
 var active_wire = null
 
 func _unhandled_input(event):
 	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT:
 		if Globals.current_mode == Globals.InteractionMode.DRAG:
-			toggle_draggability_of_clicked_cube(event)
+			toggle_cube_drag(event)
 		if Globals.current_mode ==  Globals.InteractionMode.PLACE_WIRE:
 			toggle_wire_placement(event)
-
-func toggle_draggability_of_clicked_cube(event):
+ 
+func toggle_cube_drag(event):
 	if event.pressed:
 		var raycast_result = raycast_from_mouse()
 		if raycast_result and raycast_result.collider:
@@ -29,13 +29,11 @@ func toggle_wire_placement(event):
 		var raycast_result = raycast_from_mouse()
 		if raycast_result and raycast_result.collider:
 			if active_wire == null:
-				# First click: create wire and start placing
 				active_wire = wire_scene.instantiate()
-				add_child(active_wire)
-				active_wire.start_wire(raycast_result.collider, camera)
+				wire_container.add_child(active_wire)
+				active_wire.fix_wire_start(raycast_result.collider, camera)
 			else:
-				# Second click: finalize and reset
-				active_wire.finalize_wire(raycast_result.collider)
+				active_wire.fix_wire_end(raycast_result.collider)
 				active_wire = null
 
 func raycast_from_mouse():

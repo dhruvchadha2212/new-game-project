@@ -48,6 +48,7 @@ offset_bottom = 40.0
 
 [node name="WireContainer" type="Node" parent="."]
 
-[node name="DragManager" type="Node3D" parent="."]
+[node name="DragManager" type="Node3D" parent="." node_paths=PackedStringArray("wire_container")]
 script = ExtResource("5_vcsgt")
 wire_scene = ExtResource("6_c01mt")
+wire_container = NodePath("../WireContainer")

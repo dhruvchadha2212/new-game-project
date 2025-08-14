@@ -3,7 +3,7 @@ extends Node3D
 var start_cube: Node = null
 var end_cube: Node = null
 var camera: Camera3D
-var placing = false
+var dragging = false
 
 var mesh_instance: MeshInstance3D = null
 
@@ -12,23 +12,32 @@ func _ready():
 	mesh_instance.mesh = CylinderMesh.new()
 	add_child(mesh_instance)
 
-func start_wire(cube: Node, cam: Camera3D):
+func fix_wire_start(cube: Node, cam: Camera3D):
 	start_cube = cube
 	camera = cam
-	placing = true
+	dragging = true
 
 func _process(delta):
-	if placing:
+	if dragging:
 		var mouse_pos = get_viewport().get_mouse_position()
 		var origin = camera.project_ray_origin(mouse_pos)
 		var direction = camera.project_ray_normal(mouse_pos)
-		var end_pos = origin + direction * 5.0  # adjust depth as needed
+		var end_pos: Vector3
+		if direction.y != 0:
+			# Ray-plane intersection with ground (Y=0)
+			var t = -origin.y / direction.y
+			end_pos = origin + direction * t
+		else:
+			# Fallback: straight in front of camera if ray is parallel
+			end_pos = origin + direction * 5.0
 		update_cylinder(start_cube.global_position, end_pos)
 
-func finalize_wire(cube: Node):
+func fix_wire_end(cube: Node):
 	end_cube = cube
-	placing = false
+	dragging = false
 	update_cylinder(start_cube.global_position, end_cube.global_position)
+	start_cube.add_wire(self)
+	end_cube.add_wire(self)
 
 func update_cylinder(start_pos: Vector3, end_pos: Vector3):
 	var mid_point = (start_pos + end_pos) * 0.5

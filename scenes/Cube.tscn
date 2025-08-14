@@ -1,6 +1,6 @@
 [gd_scene load_steps=4 format=3 uid="uid://ddppfk6w8r3gh"]
 
-[ext_resource type="Script" uid="uid://bhj42c80nr4hn" path="res://scripts/cube_mover.gd" id="1_7u18d"]
+[ext_resource type="Script" uid="uid://bhj42c80nr4hn" path="res://scripts/cube_behaviour.gd" id="1_7u18d"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_7u18d"]
 
