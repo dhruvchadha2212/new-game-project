@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=3 uid="uid://qm1ilyylwca5"]
+[gd_scene load_steps=14 format=3 uid="uid://qm1ilyylwca5"]
 
 [ext_resource type="Script" uid="uid://u1gm6ms462um" path="res://scripts/camera.gd" id="1_elqb8"]
 [ext_resource type="PackedScene" uid="uid://ddppfk6w8r3gh" path="res://scenes/Cube.tscn" id="2_rarhs"]
@@ -7,7 +7,9 @@
 [ext_resource type="PackedScene" uid="uid://cvrfd0srpcl8o" path="res://scenes/Wire.tscn" id="6_c01mt"]
 [ext_resource type="Script" uid="uid://cccxk6raibolj" path="res://scripts/cube_spawner.gd" id="8_jlsqs"]
 [ext_resource type="Script" uid="uid://dnp0koqx05wy4" path="res://scripts/save_manager.gd" id="8_q8u5g"]
+[ext_resource type="Script" uid="uid://bgoti6oacmso8" path="res://scripts/packet_manager.gd" id="9_lhr70"]
 [ext_resource type="Script" uid="uid://bs1j3vkh7no4" path="res://scripts/load_manager.gd" id="9_q8u5g"]
+[ext_resource type="PackedScene" uid="uid://k6o7l8po77kv" path="res://scenes/Packet.tscn" id="10_lhr70"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_4xowi"]
 sky_horizon_color = Color(0.662243, 0.671743, 0.686743, 1)
@@ -45,34 +47,41 @@ offset_bottom = 40.0
 [node name="CanvasLayer" type="CanvasLayer" parent="Control"]
 
 [node name="AddCubeButton" type="Button" parent="Control/CanvasLayer"]
-offset_left = 912.0
-offset_top = 71.0
-offset_right = 1060.0
-offset_bottom = 144.0
+offset_left = 973.0
+offset_top = 46.0
+offset_right = 1072.0
+offset_bottom = 119.0
 text = "ADD CUBE"
 
 [node name="PlaceWireButton" type="Button" parent="Control/CanvasLayer"]
-offset_left = 908.0
-offset_top = 203.0
-offset_right = 1063.0
-offset_bottom = 271.0
+offset_left = 948.0
+offset_top = 139.0
+offset_right = 1103.0
+offset_bottom = 207.0
 text = "PLACE WIRE"
 
 [node name="SaveButton" type="Button" parent="Control/CanvasLayer"]
-offset_left = 897.0
-offset_top = 313.0
-offset_right = 977.0
-offset_bottom = 370.0
+offset_left = 917.0
+offset_top = 239.0
+offset_right = 997.0
+offset_bottom = 296.0
 text = "SAVE"
 
 [node name="LoadButton" type="Button" parent="Control/CanvasLayer"]
-offset_left = 999.0
-offset_top = 313.0
-offset_right = 1075.0
-offset_bottom = 371.0
+offset_left = 1049.0
+offset_top = 239.0
+offset_right = 1125.0
+offset_bottom = 297.0
 text = "LOAD"
 
-[node name="UIManager" type="Node" parent="Control" node_paths=PackedStringArray("cube_spawner", "save_manager", "load_manager", "add_cube_button", "place_wire_button", "save_button", "load_button", "camera")]
+[node name="SendPacketButton" type="Button" parent="Control/CanvasLayer"]
+offset_left = 967.0
+offset_top = 338.0
+offset_right = 1080.0
+offset_bottom = 369.0
+text = "SEND PACKET"
+
+[node name="UIManager" type="Node" parent="Control" node_paths=PackedStringArray("cube_spawner", "save_manager", "load_manager", "add_cube_button", "place_wire_button", "save_button", "load_button", "send_packet_button", "camera")]
 script = ExtResource("5_nxtc6")
 cube_spawner = NodePath("../../CubeSpawner")
 save_manager = NodePath("../../SaveManager")
@@ -81,16 +90,18 @@ add_cube_button = NodePath("../CanvasLayer/AddCubeButton")
 place_wire_button = NodePath("../CanvasLayer/PlaceWireButton")
 save_button = NodePath("../CanvasLayer/SaveButton")
 load_button = NodePath("../CanvasLayer/LoadButton")
+send_packet_button = NodePath("../CanvasLayer/SendPacketButton")
 camera = NodePath("../../Camera3D")
 
 [node name="CubeContainer" type="Node" parent="."]
 
 [node name="WireContainer" type="Node" parent="."]
 
-[node name="DragManager" type="Node3D" parent="." node_paths=PackedStringArray("wire_container")]
+[node name="DragManager" type="Node3D" parent="." node_paths=PackedStringArray("wire_container", "packet_manager")]
 script = ExtResource("5_vcsgt")
 wire_scene = ExtResource("6_c01mt")
 wire_container = NodePath("../WireContainer")
+packet_manager = NodePath("../PacketManager")
 
 [node name="CubeSpawner" type="Node" parent="." node_paths=PackedStringArray("cube_container")]
 script = ExtResource("8_jlsqs")
@@ -111,3 +122,10 @@ cube_scene = ExtResource("2_rarhs")
 wire_scene = ExtResource("6_c01mt")
 camera = NodePath("../Camera3D")
 cube_spawner = NodePath("../CubeSpawner")
+
+[node name="PacketManager" type="Node" parent="." node_paths=PackedStringArray("packet_container")]
+script = ExtResource("9_lhr70")
+packet_scene = ExtResource("10_lhr70")
+packet_container = NodePath("../PacketContainer")
+
+[node name="PacketContainer" type="Node" parent="."]

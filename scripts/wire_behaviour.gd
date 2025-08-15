@@ -17,7 +17,7 @@ func fix_wire_start(cube: Node, cam: Camera3D):
 	camera = cam
 	dragging = true
 
-func _process(delta):
+func _process(_delta):
 	if dragging:
 		var mouse_pos = get_viewport().get_mouse_position()
 		var origin = camera.project_ray_origin(mouse_pos)

@@ -1,6 +1,6 @@
 extends Node
 
-enum InteractionMode { DRAG, PLACE_WIRE }
+enum InteractionMode { DRAG, PLACE_WIRE, SEND_PACKET }
 
 var current_mode: InteractionMode = InteractionMode.DRAG
 

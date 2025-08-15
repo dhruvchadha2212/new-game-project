@@ -14,7 +14,7 @@ func on_drag_start():
 func on_drag_end():
 	dragging = false
 
-func _process(delta):
+func _process(_delta):
 	if dragging:
 		_move_cube()
 		_move_attached_wires()
