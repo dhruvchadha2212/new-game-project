@@ -9,6 +9,8 @@ extends Node
 @export var save_button: Button
 @export var load_button: Button
 
+@export var camera: Camera3D
+
 func _ready():
 	add_cube_button.pressed.connect(_on_add_cube)
 	place_wire_button.pressed.connect(_on_place_wire)
@@ -17,7 +19,7 @@ func _ready():
 
 func _on_add_cube():
 	Globals.current_mode = Globals.InteractionMode.DRAG
-	cube_spawner.spawn_cube()
+	cube_spawner.spawn_cube(camera)
 
 func _on_place_wire():
 	Globals.current_mode = Globals.InteractionMode.PLACE_WIRE

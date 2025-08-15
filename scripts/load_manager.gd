@@ -5,6 +5,7 @@ extends Node
 @export var cube_scene: PackedScene
 @export var wire_scene: PackedScene
 @export var camera: Camera3D
+@export var cube_spawner: Node
 
 func load_scene_state():
 	if not FileAccess.file_exists(Globals.save_path):
@@ -29,10 +30,9 @@ func load_scene_state():
 	# Recreate cubes
 	var id_to_cube = {}
 	for cube_data in save_data["cubes"]:
-		var cube = cube_scene.instantiate()
-		cube.cube_id = cube_data["id"]
-		cube.global_position = Vector3(cube_data["position"][0], cube_data["position"][1], cube_data["position"][2])
-		cube_container.add_child(cube)
+		var pos_array = cube_data["position"]
+		var pos_vector3 = Vector3(pos_array[0], pos_array[1], pos_array[2])
+		var cube = cube_spawner.spawn_cube(camera, cube_data["id"], pos_vector3)
 		id_to_cube[cube.cube_id] = cube
 
 	# Recreate wires

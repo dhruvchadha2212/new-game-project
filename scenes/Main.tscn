@@ -72,7 +72,7 @@ offset_right = 1075.0
 offset_bottom = 371.0
 text = "LOAD"
 
-[node name="UIManager" type="Node" parent="Control" node_paths=PackedStringArray("cube_spawner", "save_manager", "load_manager", "add_cube_button", "place_wire_button", "save_button", "load_button")]
+[node name="UIManager" type="Node" parent="Control" node_paths=PackedStringArray("cube_spawner", "save_manager", "load_manager", "add_cube_button", "place_wire_button", "save_button", "load_button", "camera")]
 script = ExtResource("5_nxtc6")
 cube_spawner = NodePath("../../CubeSpawner")
 save_manager = NodePath("../../SaveManager")
@@ -81,6 +81,7 @@ add_cube_button = NodePath("../CanvasLayer/AddCubeButton")
 place_wire_button = NodePath("../CanvasLayer/PlaceWireButton")
 save_button = NodePath("../CanvasLayer/SaveButton")
 load_button = NodePath("../CanvasLayer/LoadButton")
+camera = NodePath("../../Camera3D")
 
 [node name="CubeContainer" type="Node" parent="."]
 
@@ -91,11 +92,10 @@ script = ExtResource("5_vcsgt")
 wire_scene = ExtResource("6_c01mt")
 wire_container = NodePath("../WireContainer")
 
-[node name="CubeSpawner" type="Node3D" parent="." node_paths=PackedStringArray("cube_container", "camera")]
+[node name="CubeSpawner" type="Node" parent="." node_paths=PackedStringArray("cube_container")]
 script = ExtResource("8_jlsqs")
 cube_scene = ExtResource("2_rarhs")
 cube_container = NodePath("../CubeContainer")
-camera = NodePath("../Camera3D")
 
 [node name="SaveManager" type="Node" parent="." node_paths=PackedStringArray("cube_container", "wire_container", "camera")]
 script = ExtResource("8_q8u5g")
@@ -103,10 +103,11 @@ cube_container = NodePath("../CubeContainer")
 wire_container = NodePath("../WireContainer")
 camera = NodePath("../Camera3D")
 
-[node name="LoadManager" type="Node" parent="." node_paths=PackedStringArray("cube_container", "wire_container", "camera")]
+[node name="LoadManager" type="Node" parent="." node_paths=PackedStringArray("cube_container", "wire_container", "camera", "cube_spawner")]
 script = ExtResource("9_q8u5g")
 cube_container = NodePath("../CubeContainer")
 wire_container = NodePath("../WireContainer")
 cube_scene = ExtResource("2_rarhs")
 wire_scene = ExtResource("6_c01mt")
 camera = NodePath("../Camera3D")
+cube_spawner = NodePath("../CubeSpawner")

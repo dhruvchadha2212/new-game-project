@@ -62,8 +62,13 @@ func update_cylinder(start_pos: Vector3, end_pos: Vector3):
 		# Directions are opposite, rotate 180 degrees around any perpendicular axis (e.g., X axis)
 		quat = Quaternion(Vector3(1, 0, 0), PI)
 	else:
-		var rotation_axis = from_dir.cross(to_dir).normalized()
+		var rotation_axis = from_dir.cross(to_dir)
+		var axis_length = rotation_axis.length()
 		var angle = acos(dot)
+		if axis_length < 0.0001:
+			# Fallback: choose any perpendicular axis (e.g., X axis)
+			rotation_axis = Vector3(1, 0, 0)
+		else:
+			rotation_axis = rotation_axis / axis_length
 		quat = Quaternion(rotation_axis, angle)
-
 	global_rotation = quat.get_euler()
