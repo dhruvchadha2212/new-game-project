@@ -18,15 +18,15 @@ func save_scene_state():
 	# Save all cubes
 	for cube in cube_container.get_children():
 		save_data["cubes"].append({
-			"id": cube.cube_id,
+			"id": cube.node_id,
 			"position": [cube.global_position.x, cube.global_position.y, cube.global_position.z]
 		})
 
 	# Save all wires
 	for wire in wire_container.get_children():
 		save_data["wires"].append({
-			"start_id": wire.start_cube.cube_id,
-			"end_id": wire.end_cube.cube_id
+			"start_id": wire.start_node.node_id,
+			"end_id": wire.end_node.node_id
 		})
 
 	# Save to disk as JSON

@@ -1,6 +1,6 @@
 extends Node
 
-@export var cube_spawner: Node
+@export var cubes_manager: Node
 @export var save_manager: Node
 @export var load_manager: Node
 
@@ -21,16 +21,16 @@ func _ready():
 
 func _on_add_cube():
 	Globals.current_mode = Globals.InteractionMode.DRAG
-	cube_spawner.spawn_cube(camera)
+	cubes_manager.spawn_cube(camera)
 
 func _on_place_wire():
 	Globals.current_mode = Globals.InteractionMode.PLACE_WIRE
+
+func _on_send_packet():
+	Globals.current_mode = Globals.InteractionMode.SEND_PACKET
 
 func _on_save():
 	save_manager.save_scene_state()
 
 func _on_load():
 	load_manager.load_scene_state()
-
-func _on_send_packet():
-	Globals.current_mode = Globals.InteractionMode.SEND_PACKET

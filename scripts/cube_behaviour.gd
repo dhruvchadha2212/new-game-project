@@ -1,6 +1,8 @@
 extends StaticBody3D
 
-var cube_id: int
+## Responsible for dragging cube and its connected wires using mouse input.
+
+var node_id: String
 var camera: Camera3D
 var dragging = false
 var connected_wires = []
@@ -38,4 +40,4 @@ func _move_cube():
 
 func _move_attached_wires():
 	for wire in connected_wires:
-		wire.update_cylinder(wire.start_cube.global_position, wire.end_cube.global_position) 
+		wire.update_cylinder(wire.start_node.global_position, wire.end_node.global_position)
