@@ -10,6 +10,7 @@ var end_node: Node = null
 var speed: float = 10.0   # meters per second
 var percent: float = 0.0 # progress along the wire [0,1]
 var packet_id: String
+var type: Globals.PacketType
 
 func initialize_id():
 	var base_id = Time.get_ticks_usec()

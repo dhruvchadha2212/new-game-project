@@ -6,6 +6,7 @@ var node_id: String
 var camera: Camera3D
 var dragging = false
 var connected_wires = []
+var type: Globals.ServerType
 
 func add_wire(wire):
 	connected_wires.append(wire)
