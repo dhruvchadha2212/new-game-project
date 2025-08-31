@@ -25,7 +25,7 @@ func on_request_packet_reached(request_packet, start_server, end_server):
 
 	var random_index = randi() % valid_new_end_servers.size()
 	var new_end_server = valid_new_end_servers[random_index]
-	var connection = Connection.new(start_server, end_server)
+	var connection = Connection.new(new_start_server, new_end_server)
 	var packet = packet_factory.spawn_new_packet(
 		Globals.PacketType.REQUEST, new_start_server, new_end_server, connection)
 	connection_relay_mapping[packet.connection] = request_packet.connection
