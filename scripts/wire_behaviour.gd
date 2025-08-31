@@ -1,7 +1,7 @@
 extends Node3D
 
-var start_node: Node = null
-var end_node: Node = null
+var start_server: Node = null
+var end_server: Node = null
 var camera: Camera3D
 var dragging = false
 
@@ -12,8 +12,8 @@ func _ready():
 	mesh_instance.mesh = CylinderMesh.new()
 	add_child(mesh_instance)
 
-func fix_wire_start(cube: Node, cam: Camera3D):
-	start_node = cube
+func fix_wire_start(server: Node, cam: Camera3D):
+	start_server = server
 	camera = cam
 	dragging = true
 
@@ -30,14 +30,14 @@ func _process(_delta):
 		else:
 			# Fallback: straight in front of camera if ray is parallel
 			end_pos = origin + direction * 5.0
-		update_cylinder(start_node.global_position, end_pos)
+		update_cylinder(start_server.global_position, end_pos)
 
-func fix_wire_end(cube: Node):
-	end_node = cube
+func fix_wire_end(server: Node):
+	end_server = server
 	dragging = false
-	update_cylinder(start_node.global_position, end_node.global_position)
-	start_node.add_wire(self)
-	end_node.add_wire(self)
+	update_cylinder(start_server.global_position, end_server.global_position)
+	start_server.add_wire(self)
+	end_server.add_wire(self)
 
 func update_cylinder(start_pos: Vector3, end_pos: Vector3):
 	var mid_point = (start_pos + end_pos) * 0.5

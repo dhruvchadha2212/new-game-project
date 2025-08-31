@@ -18,7 +18,7 @@ func save_scene_state():
 	# Save all servers
 	for server in server_container.get_children():
 		save_data["servers"].append({
-			"id": server.node_id,
+			"id": server.id,
 			"type": Globals.ServerType.keys()[server.type],
 			"position": [server.global_position.x, server.global_position.y, server.global_position.z]
 		})
@@ -26,8 +26,8 @@ func save_scene_state():
 	# Save all wires
 	for wire in wire_container.get_children():
 		save_data["wires"].append({
-			"start_id": wire.start_node.node_id,
-			"end_id": wire.end_node.node_id
+			"start_id": wire.start_server.id,
+			"end_id": wire.end_server.id
 		})
 
 	# Save to disk as JSON

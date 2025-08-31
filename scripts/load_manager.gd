@@ -33,7 +33,7 @@ func load_scene_state():
 		var pos_vector3 = Vector3(pos_array[0], pos_array[1], pos_array[2])
 		var server = server_factory.spawn_server(
 			Globals.ServerType[server_data["type"]], camera, server_data["id"], pos_vector3)
-		id_server[server.node_id] = server
+		id_server[server.id] = server
 
 	# Recreate wires
 	for wire_data in save_data["wires"]:

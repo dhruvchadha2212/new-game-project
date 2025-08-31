@@ -2,32 +2,43 @@ extends "res://scripts/base_server_manager.gd"
 
 @export var load_balancer_scene: PackedScene
 
-func on_request_packet_reached(request_packet, packet_start_node, packet_end_node):
-	var start_node = packet_end_node
-	var valid_end_nodes = []
+var connection_relay_mapping = {} # forward connection to previous connection
+
+func on_request_packet_reached(request_packet, start_server, end_server):
+	var new_start_server = end_server
+	var valid_new_end_servers = []
 	
-	for wire in start_node.connected_wires:
-		var end_node = null
-		if wire.start_node == start_node:
-			end_node = wire.end_node
-		elif wire.end_node == start_node:
-			end_node = wire.start_node
+	for wire in end_server.connected_wires:
+		var new_end_server = null
+		if wire.start_server == end_server:
+			new_end_server = wire.end_server
+		elif wire.end_server == end_server:
+			new_end_server = wire.start_server
 		else:
-			push_error("Wire does not connect to this cube.")
+			push_error("Wire does not connect to this server.")
 			continue
 		
-		if end_node != packet_start_node:
-			valid_end_nodes.append(end_node)
-	print(valid_end_nodes)
-	if valid_end_nodes.size() == 0:
+		if new_end_server != start_server:
+			valid_new_end_servers.append(new_end_server)
+	if valid_new_end_servers.size() == 0:
 		return
 
-	var random_index = randi() % valid_end_nodes.size()
-	var end_node = valid_end_nodes[random_index]
-	var packet = packet_factory.spawn_new_packet(Globals.PacketType.REQUEST, start_node, end_node)
+	var random_index = randi() % valid_new_end_servers.size()
+	var new_end_server = valid_new_end_servers[random_index]
+	var connection = Connection.new(start_server, end_server)
+	var packet = packet_factory.spawn_new_packet(
+		Globals.PacketType.REQUEST, new_start_server, new_end_server, connection)
+	connection_relay_mapping[packet.connection] = request_packet.connection
 	packet.packet_reached.connect(
-		mappings.get_manager_for_server_type(end_node.type).on_request_packet_reached)
+		mappings.get_manager_for_server_type(new_end_server.type).on_request_packet_reached)
 	packet.send()
 
-func on_response_packet_reached(response_packet, start_node, end_node):
-	print("response received")
+func on_response_packet_reached(response_packet, start_server, end_server):
+	var previous_connection = connection_relay_mapping[response_packet.connection]
+	var new_start_server = end_server
+	var new_end_server = previous_connection.start_server
+	var packet = packet_factory.spawn_new_packet(
+		Globals.PacketType.RESPONSE, new_start_server, new_end_server, previous_connection)
+	packet.packet_reached.connect(
+		mappings.get_manager_for_server_type(new_end_server.type).on_response_packet_reached)
+	packet.send()
