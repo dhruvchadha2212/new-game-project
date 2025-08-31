@@ -2,7 +2,7 @@ extends "res://scripts/base_server_manager.gd"
 
 @export var load_balancer_scene: PackedScene
 
-func spawn_load_balancer(camera: Camera3D, node_id: String = "-1", position: Vector3 = Vector3.ZERO):
+func spawn_server(camera: Camera3D, node_id: String = "-1", position: Vector3 = Vector3.ZERO):
 	if node_id == "-1":
 		node_id = str(Time.get_ticks_usec())
 	var new_load_balancer = load_balancer_scene.instantiate()
@@ -37,7 +37,7 @@ func on_request_packet_reached(request_packet, packet_start_node, packet_end_nod
 	var end_node = valid_end_nodes[random_index]
 	var packet = packet_manager.spawn_new_request_packet(start_node, end_node)
 	packet.packet_reached.connect(
-		manager_handler.get_manager_for_server(end_node).on_request_packet_reached)
+		manager_handler.get_manager_for_server_type(end_node.type).on_request_packet_reached)
 	packet.send()
 
 func on_response_packet_reached(response_packet, start_node, end_node):

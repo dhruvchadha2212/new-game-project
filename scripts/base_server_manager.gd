@@ -8,16 +8,8 @@ extends Node
 @export var packet_manager: Node
 @export var manager_handler: Node
 
-func spawn_cube(camera: Camera3D, node_id: String = "-1", position: Vector3 = Vector3.ZERO):
-	if node_id == "-1":
-		node_id = str(Time.get_ticks_usec())
-	var new_cube = cube_scene.instantiate()
-	new_cube.camera = camera
-	new_cube.node_id = node_id
-	cube_container.add_child(new_cube)
-	new_cube.global_position = position
-	print("Spawned cube with ID:", new_cube.node_id)
-	return new_cube
+func spawn_server(camera: Camera3D, node_id: String = "-1", position: Vector3 = Vector3.ZERO):
+	push_error("Abstract method 'spawn_server' must be implemented by subclass")
 
 func send_packets_from(start_node):
 	for wire in start_node.connected_wires:
@@ -31,7 +23,7 @@ func send_packets_from(start_node):
 			continue
 		var request_packet = packet_manager.spawn_new_request_packet(start_node, end_node)
 		request_packet.packet_reached.connect(
-			manager_handler.get_manager_for_server(end_node).on_request_packet_reached)
+			manager_handler.get_manager_for_server_type(end_node.type).on_request_packet_reached)
 		request_packet.send()
 
 func on_request_packet_reached(packet, start_node, end_node):

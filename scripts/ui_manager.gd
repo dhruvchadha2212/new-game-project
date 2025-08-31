@@ -24,11 +24,11 @@ func _ready():
 
 func _on_add_service():
 	Globals.current_mode = Globals.InteractionMode.DRAG
-	service_manager.spawn_service(camera)
+	service_manager.spawn_server(camera)
 
 func _on_add_load_balancer():
 	Globals.current_mode = Globals.InteractionMode.DRAG
-	load_balancer_manager.spawn_load_balancer(camera)
+	load_balancer_manager.spawn_server(camera)
 
 func _on_place_wire():
 	Globals.current_mode = Globals.InteractionMode.PLACE_WIRE

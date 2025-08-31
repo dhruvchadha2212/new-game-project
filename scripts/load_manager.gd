@@ -6,6 +6,7 @@ extends Node
 @export var wire_scene: PackedScene
 @export var camera: Camera3D
 @export var cubes_manager: Node
+@export var manager_handler: Node
 
 func load_scene_state():
 	if not FileAccess.file_exists(Globals.save_path):
@@ -29,10 +30,11 @@ func load_scene_state():
 
 	# Recreate cubes
 	var id_to_cube = {}
-	for cube_data in save_data["cubes"]:
+	for cube_data in save_data["servers"]:
 		var pos_array = cube_data["position"]
 		var pos_vector3 = Vector3(pos_array[0], pos_array[1], pos_array[2])
-		var cube = cubes_manager.spawn_cube(camera, cube_data["id"], pos_vector3)
+		var server_manager = manager_handler.get_manager_for_server_type(Globals.ServerType[cube_data["type"]])
+		var cube = server_manager.spawn_server(camera, cube_data["id"], pos_vector3)
 		id_to_cube[cube.node_id] = cube
 
 	# Recreate wires

@@ -2,7 +2,7 @@ extends "res://scripts/base_server_manager.gd"
 
 @export var service_scene: PackedScene
 
-func spawn_service(camera: Camera3D, node_id: String = "-1", position: Vector3 = Vector3.ZERO):
+func spawn_server(camera: Camera3D, node_id: String = "-1", position: Vector3 = Vector3.ZERO):
 	if node_id == "-1":
 		node_id = str(Time.get_ticks_usec())
 	var new_service = service_scene.instantiate()
@@ -21,7 +21,7 @@ func on_request_packet_reached(request_packet, start_node, end_node):
 	var new_end_node = start_node
 	var response_packet = packet_manager.spawn_new_response_packet(new_start_node, new_end_node)
 	response_packet.packet_reached.connect(
-		manager_handler.get_manager_for_server(end_node).on_response_packet_reached)
+		manager_handler.get_manager_for_server_type(end_node.type).on_response_packet_reached)
 	response_packet.send()
 
 func on_response_packet_reached(response_packet, start_node, end_node):
