@@ -9,13 +9,10 @@ var start_node: Node = null
 var end_node: Node = null
 var speed: float = 10.0   # meters per second
 var percent: float = 0.0 # progress along the wire [0,1]
-var packet_id: String
+var id: String
 var type: Globals.PacketType
 
-func initialize_id():
-	var base_id = Time.get_ticks_usec()
-	var random_suffix = randi() % 10000
-	self.packet_id = str(base_id) + "_" + str(random_suffix)
+
 
 # Call this to initialize and begin movement
 func send():

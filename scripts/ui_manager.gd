@@ -1,7 +1,6 @@
 extends Node
 
-@export var service_manager: Node
-@export var load_balancer_manager: Node
+@export var server_factory: Node
 @export var save_manager: Node
 @export var load_manager: Node
 
@@ -24,11 +23,11 @@ func _ready():
 
 func _on_add_service():
 	Globals.current_mode = Globals.InteractionMode.DRAG
-	service_manager.spawn_server(camera)
+	server_factory.spawn_server(Globals.ServerType.SERVICE, camera)
 
 func _on_add_load_balancer():
 	Globals.current_mode = Globals.InteractionMode.DRAG
-	load_balancer_manager.spawn_server(camera)
+	server_factory.spawn_server(Globals.ServerType.LOAD_BALANCER, camera)
 
 func _on_place_wire():
 	Globals.current_mode = Globals.InteractionMode.PLACE_WIRE

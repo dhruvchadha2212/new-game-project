@@ -1,17 +1,19 @@
-[gd_scene load_steps=17 format=3 uid="uid://qm1ilyylwca5"]
+[gd_scene load_steps=19 format=3 uid="uid://qm1ilyylwca5"]
 
 [ext_resource type="Script" uid="uid://u1gm6ms462um" path="res://scripts/camera.gd" id="1_elqb8"]
 [ext_resource type="PackedScene" uid="uid://ddppfk6w8r3gh" path="res://scenes/Service.tscn" id="2_rarhs"]
 [ext_resource type="Script" uid="uid://b1aantlp4v7xl" path="res://scripts/ui_manager.gd" id="5_nxtc6"]
 [ext_resource type="Script" uid="uid://be7u6hyw8y28l" path="res://scripts/click_handler.gd" id="5_vcsgt"]
 [ext_resource type="PackedScene" uid="uid://cvrfd0srpcl8o" path="res://scenes/Wire.tscn" id="6_c01mt"]
-[ext_resource type="Script" uid="uid://b0gnjjnts5100" path="res://scripts/manager_handler.gd" id="8_bjd11"]
+[ext_resource type="Script" uid="uid://b0gnjjnts5100" path="res://scripts/mappings.gd" id="8_bjd11"]
 [ext_resource type="Script" uid="uid://cccxk6raibolj" path="res://scripts/service_manager.gd" id="8_jlsqs"]
 [ext_resource type="Script" uid="uid://dnp0koqx05wy4" path="res://scripts/save_manager.gd" id="8_q8u5g"]
-[ext_resource type="Script" uid="uid://bgoti6oacmso8" path="res://scripts/packet_manager.gd" id="9_lhr70"]
+[ext_resource type="Script" uid="uid://bgoti6oacmso8" path="res://scripts/packet_factory.gd" id="9_lhr70"]
 [ext_resource type="Script" uid="uid://bs1j3vkh7no4" path="res://scripts/load_manager.gd" id="9_q8u5g"]
 [ext_resource type="PackedScene" uid="uid://k6o7l8po77kv" path="res://scenes/RequestPacket.tscn" id="10_lhr70"]
 [ext_resource type="Script" uid="uid://bq80dtq40uplk" path="res://scripts/load_balancer_manager.gd" id="11_wp0k4"]
+[ext_resource type="PackedScene" uid="uid://blk5ujbrkqrtj" path="res://scenes/ResponsePacket.tscn" id="12_mwfav"]
+[ext_resource type="Script" uid="uid://difkk1albi2du" path="res://scripts/server_factory.gd" id="13_mwfav"]
 [ext_resource type="PackedScene" uid="uid://d1p531qtpnpmh" path="res://scenes/LoadBalancer.tscn" id="13_qmy6f"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_4xowi"]
@@ -92,10 +94,9 @@ offset_right = 1080.0
 offset_bottom = 369.0
 text = "SEND PACKET"
 
-[node name="UIManager" type="Node" parent="Control" node_paths=PackedStringArray("service_manager", "load_balancer_manager", "save_manager", "load_manager", "add_service_button", "add_load_balancer_button", "place_wire_button", "save_button", "load_button", "send_packet_button", "camera")]
+[node name="UIManager" type="Node" parent="Control" node_paths=PackedStringArray("server_factory", "save_manager", "load_manager", "add_service_button", "add_load_balancer_button", "place_wire_button", "save_button", "load_button", "send_packet_button", "camera")]
 script = ExtResource("5_nxtc6")
-service_manager = NodePath("../../ManagerHandler/ServiceManager")
-load_balancer_manager = NodePath("../../ManagerHandler/LoadBalancerManager")
+server_factory = NodePath("../../ServerFactory")
 save_manager = NodePath("../../SaveAndLoad/SaveManager")
 load_manager = NodePath("../../SaveAndLoad/LoadManager")
 add_service_button = NodePath("../CanvasLayer/AddServiceButton")
@@ -110,8 +111,8 @@ camera = NodePath("../../Camera3D")
 script = ExtResource("5_vcsgt")
 wire_scene = ExtResource("6_c01mt")
 wire_container = NodePath("../Containers/WireContainer")
-packet_manager = NodePath("../ManagerHandler/PacketManager")
-cubes_manager = NodePath("../ManagerHandler/ServiceManager")
+packet_manager = NodePath("../PacketFactory")
+cubes_manager = NodePath("../Managers/ServiceManager")
 
 [node name="Containers" type="Node" parent="."]
 
@@ -129,36 +130,41 @@ server_container = NodePath("../../Containers/ServerContainer")
 wire_container = NodePath("../../Containers/WireContainer")
 camera = NodePath("../../Camera3D")
 
-[node name="LoadManager" type="Node" parent="SaveAndLoad" node_paths=PackedStringArray("server_container", "wire_container", "camera", "manager_handler")]
+[node name="LoadManager" type="Node" parent="SaveAndLoad" node_paths=PackedStringArray("server_container", "wire_container", "camera", "server_factory")]
 script = ExtResource("9_q8u5g")
 server_container = NodePath("../../Containers/ServerContainer")
 wire_container = NodePath("../../Containers/WireContainer")
 wire_scene = ExtResource("6_c01mt")
 camera = NodePath("../../Camera3D")
-manager_handler = NodePath("../../ManagerHandler")
+server_factory = NodePath("../../ServerFactory")
 
-[node name="ManagerHandler" type="Node" parent="." node_paths=PackedStringArray("service_manager", "load_balancer_manager")]
-script = ExtResource("8_bjd11")
-service_manager = NodePath("ServiceManager")
-load_balancer_manager = NodePath("LoadBalancerManager")
+[node name="Managers" type="Node" parent="."]
 
-[node name="ServiceManager" type="Node" parent="ManagerHandler" node_paths=PackedStringArray("cube_container", "packet_manager", "manager_handler")]
+[node name="ServiceManager" type="Node" parent="Managers" node_paths=PackedStringArray("packet_factory", "mappings")]
 script = ExtResource("8_jlsqs")
 service_scene = ExtResource("2_rarhs")
-cube_scene = ExtResource("2_rarhs")
-cube_container = NodePath("../../Containers/ServerContainer")
-packet_manager = NodePath("../PacketManager")
-manager_handler = NodePath("..")
+packet_factory = NodePath("../../PacketFactory")
+mappings = NodePath("../../Mappings")
 
-[node name="PacketManager" type="Node" parent="ManagerHandler" node_paths=PackedStringArray("packet_container")]
-script = ExtResource("9_lhr70")
-packet_scene = ExtResource("10_lhr70")
-packet_container = NodePath("../../Containers/PacketContainer")
-
-[node name="LoadBalancerManager" type="Node" parent="ManagerHandler" node_paths=PackedStringArray("cube_container", "packet_manager", "manager_handler")]
+[node name="LoadBalancerManager" type="Node" parent="Managers" node_paths=PackedStringArray("packet_factory", "mappings")]
 script = ExtResource("11_wp0k4")
 load_balancer_scene = ExtResource("13_qmy6f")
-cube_scene = ExtResource("13_qmy6f")
-cube_container = NodePath("../../Containers/ServerContainer")
-packet_manager = NodePath("../PacketManager")
-manager_handler = NodePath("..")
+packet_factory = NodePath("../../PacketFactory")
+mappings = NodePath("../../Mappings")
+
+[node name="Mappings" type="Node" parent="." node_paths=PackedStringArray("service_manager", "load_balancer_manager")]
+script = ExtResource("8_bjd11")
+service_manager = NodePath("../Managers/ServiceManager")
+load_balancer_manager = NodePath("../Managers/LoadBalancerManager")
+
+[node name="ServerFactory" type="Node" parent="." node_paths=PackedStringArray("server_container")]
+script = ExtResource("13_mwfav")
+server_container = NodePath("../Containers/ServerContainer")
+service_scene = ExtResource("2_rarhs")
+load_balancer_scene = ExtResource("13_qmy6f")
+
+[node name="PacketFactory" type="Node" parent="." node_paths=PackedStringArray("packet_container")]
+script = ExtResource("9_lhr70")
+packet_container = NodePath("../Containers/PacketContainer")
+request_packet_scene = ExtResource("10_lhr70")
+response_packet_scene = ExtResource("12_mwfav")

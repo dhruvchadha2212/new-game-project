@@ -4,7 +4,7 @@ extends Node
 @export var wire_container: Node
 @export var wire_scene: PackedScene
 @export var camera: Camera3D
-@export var manager_handler: Node
+@export var server_factory: Node
 
 func load_scene_state():
 	if not FileAccess.file_exists(Globals.save_path):
@@ -31,8 +31,8 @@ func load_scene_state():
 	for server_data in save_data["servers"]:
 		var pos_array = server_data["position"]
 		var pos_vector3 = Vector3(pos_array[0], pos_array[1], pos_array[2])
-		var server_manager = manager_handler.get_manager_for_server_type(Globals.ServerType[server_data["type"]])
-		var server = server_manager.spawn_server(camera, server_data["id"], pos_vector3)
+		var server = server_factory.spawn_server(
+			Globals.ServerType[server_data["type"]], camera, server_data["id"], pos_vector3)
 		id_server[server.node_id] = server
 
 	# Recreate wires
