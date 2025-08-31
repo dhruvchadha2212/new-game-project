@@ -1,11 +1,9 @@
 extends Node
 
-@export var cube_container: Node
+@export var server_container: Node
 @export var wire_container: Node
-@export var cube_scene: PackedScene
 @export var wire_scene: PackedScene
 @export var camera: Camera3D
-@export var cubes_manager: Node
 @export var manager_handler: Node
 
 func load_scene_state():
@@ -23,28 +21,28 @@ func load_scene_state():
 		return
 
 	# Clear old objects
-	for c in cube_container.get_children():
+	for c in server_container.get_children():
 		c.queue_free()
 	for w in wire_container.get_children():
 		w.queue_free()
 
-	# Recreate cubes
-	var id_to_cube = {}
-	for cube_data in save_data["servers"]:
-		var pos_array = cube_data["position"]
+	# Recreate servers
+	var id_server = {}
+	for server_data in save_data["servers"]:
+		var pos_array = server_data["position"]
 		var pos_vector3 = Vector3(pos_array[0], pos_array[1], pos_array[2])
-		var server_manager = manager_handler.get_manager_for_server_type(Globals.ServerType[cube_data["type"]])
-		var cube = server_manager.spawn_server(camera, cube_data["id"], pos_vector3)
-		id_to_cube[cube.node_id] = cube
+		var server_manager = manager_handler.get_manager_for_server_type(Globals.ServerType[server_data["type"]])
+		var server = server_manager.spawn_server(camera, server_data["id"], pos_vector3)
+		id_server[server.node_id] = server
 
 	# Recreate wires
 	for wire_data in save_data["wires"]:
 		var wire = wire_scene.instantiate()
 		wire_container.add_child(wire)
-		var start_cube_id = wire_data["start_id"]
-		var end_cube_id = wire_data["end_id"]
-		wire.fix_wire_start(id_to_cube[start_cube_id], null) # null since no camera needed after placement
-		wire.fix_wire_end(id_to_cube[end_cube_id])
+		var start_server_id = wire_data["start_id"]
+		var end_server_id = wire_data["end_id"]
+		wire.fix_wire_start(id_server[start_server_id], null) # null since no camera needed after placement
+		wire.fix_wire_end(id_server[end_server_id])
 
 	# Restore camera transform
 	var t = save_data["camera_transform"]

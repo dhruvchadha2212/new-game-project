@@ -1,6 +1,6 @@
 extends Node
 
-@export var cube_container: Node
+@export var server_container: Node
 @export var wire_container: Node
 @export var camera: Camera3D
 
@@ -15,12 +15,12 @@ func save_scene_state():
 	}
 	save_data.camera_transform = camera_transform_dict
 
-	# Save all cubes
-	for cube in cube_container.get_children():
+	# Save all servers
+	for server in server_container.get_children():
 		save_data["servers"].append({
-			"id": cube.node_id,
-			"type": Globals.ServerType.keys()[cube.type],
-			"position": [cube.global_position.x, cube.global_position.y, cube.global_position.z]
+			"id": server.node_id,
+			"type": Globals.ServerType.keys()[server.type],
+			"position": [server.global_position.x, server.global_position.y, server.global_position.z]
 		})
 
 	# Save all wires

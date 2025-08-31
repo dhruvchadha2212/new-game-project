@@ -117,26 +117,24 @@ cubes_manager = NodePath("../ManagerHandler/ServiceManager")
 
 [node name="PacketContainer" type="Node" parent="Containers"]
 
-[node name="CubeContainer" type="Node" parent="Containers"]
+[node name="ServerContainer" type="Node" parent="Containers"]
 
 [node name="WireContainer" type="Node" parent="Containers"]
 
 [node name="SaveAndLoad" type="Node" parent="."]
 
-[node name="SaveManager" type="Node" parent="SaveAndLoad" node_paths=PackedStringArray("cube_container", "wire_container", "camera")]
+[node name="SaveManager" type="Node" parent="SaveAndLoad" node_paths=PackedStringArray("server_container", "wire_container", "camera")]
 script = ExtResource("8_q8u5g")
-cube_container = NodePath("../../Containers/CubeContainer")
+server_container = NodePath("../../Containers/ServerContainer")
 wire_container = NodePath("../../Containers/WireContainer")
 camera = NodePath("../../Camera3D")
 
-[node name="LoadManager" type="Node" parent="SaveAndLoad" node_paths=PackedStringArray("cube_container", "wire_container", "camera", "cubes_manager", "manager_handler")]
+[node name="LoadManager" type="Node" parent="SaveAndLoad" node_paths=PackedStringArray("server_container", "wire_container", "camera", "manager_handler")]
 script = ExtResource("9_q8u5g")
-cube_container = NodePath("../../Containers/CubeContainer")
+server_container = NodePath("../../Containers/ServerContainer")
 wire_container = NodePath("../../Containers/WireContainer")
-cube_scene = ExtResource("2_rarhs")
 wire_scene = ExtResource("6_c01mt")
 camera = NodePath("../../Camera3D")
-cubes_manager = NodePath("../../ManagerHandler/ServiceManager")
 manager_handler = NodePath("../../ManagerHandler")
 
 [node name="ManagerHandler" type="Node" parent="." node_paths=PackedStringArray("service_manager", "load_balancer_manager")]
@@ -148,7 +146,7 @@ load_balancer_manager = NodePath("LoadBalancerManager")
 script = ExtResource("8_jlsqs")
 service_scene = ExtResource("2_rarhs")
 cube_scene = ExtResource("2_rarhs")
-cube_container = NodePath("../../Containers/CubeContainer")
+cube_container = NodePath("../../Containers/ServerContainer")
 packet_manager = NodePath("../PacketManager")
 manager_handler = NodePath("..")
 
@@ -161,6 +159,6 @@ packet_container = NodePath("../../Containers/PacketContainer")
 script = ExtResource("11_wp0k4")
 load_balancer_scene = ExtResource("13_qmy6f")
 cube_scene = ExtResource("13_qmy6f")
-cube_container = NodePath("../../Containers/CubeContainer")
+cube_container = NodePath("../../Containers/ServerContainer")
 packet_manager = NodePath("../PacketManager")
 manager_handler = NodePath("..")
