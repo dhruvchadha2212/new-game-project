@@ -13,6 +13,7 @@ var id: String
 var type: Globals.PacketType
 var connection: Connection
 var reached = false
+var protocol: Globals.Protocol
 
 # Call this to initialize and begin movement
 func send():
@@ -42,5 +43,5 @@ func _process(delta):
 	# Move packet along interpolated position
 	global_position = start_pos.lerp(end_pos, percent)
 	if percent >= 1.0:
-		emit_signal("packet_reached", self, start_server, end_server)
+		emit_signal("packet_reached", self)
 		reached = true

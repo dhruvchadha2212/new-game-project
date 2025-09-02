@@ -1,4 +1,4 @@
-[gd_scene load_steps=19 format=3 uid="uid://qm1ilyylwca5"]
+[gd_scene load_steps=20 format=3 uid="uid://qm1ilyylwca5"]
 
 [ext_resource type="Script" uid="uid://u1gm6ms462um" path="res://scripts/camera.gd" id="1_elqb8"]
 [ext_resource type="PackedScene" uid="uid://ddppfk6w8r3gh" path="res://scenes/Service.tscn" id="2_rarhs"]
@@ -10,11 +10,12 @@
 [ext_resource type="Script" uid="uid://dnp0koqx05wy4" path="res://scripts/save_manager.gd" id="8_q8u5g"]
 [ext_resource type="Script" uid="uid://bgoti6oacmso8" path="res://scripts/packet_factory.gd" id="9_lhr70"]
 [ext_resource type="Script" uid="uid://bs1j3vkh7no4" path="res://scripts/load_manager.gd" id="9_q8u5g"]
-[ext_resource type="PackedScene" uid="uid://k6o7l8po77kv" path="res://scenes/RequestPacket.tscn" id="10_lhr70"]
+[ext_resource type="PackedScene" uid="uid://k6o7l8po77kv" path="res://scenes/Packet.tscn" id="10_lhr70"]
 [ext_resource type="Script" uid="uid://bq80dtq40uplk" path="res://scripts/load_balancer_manager.gd" id="11_wp0k4"]
-[ext_resource type="PackedScene" uid="uid://blk5ujbrkqrtj" path="res://scenes/ResponsePacket.tscn" id="12_mwfav"]
 [ext_resource type="Script" uid="uid://difkk1albi2du" path="res://scripts/server_factory.gd" id="13_mwfav"]
 [ext_resource type="PackedScene" uid="uid://d1p531qtpnpmh" path="res://scenes/LoadBalancer.tscn" id="13_qmy6f"]
+[ext_resource type="Material" uid="uid://bxjjeo32omtcw" path="res://materials/red_material.tres" id="15_cvmbd"]
+[ext_resource type="Material" uid="uid://cgn21elm1ituv" path="res://materials/green_material.tres" id="16_ft6cd"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_4xowi"]
 sky_horizon_color = Color(0.662243, 0.671743, 0.686743, 1)
@@ -166,5 +167,6 @@ load_balancer_scene = ExtResource("13_qmy6f")
 [node name="PacketFactory" type="Node" parent="." node_paths=PackedStringArray("packet_container")]
 script = ExtResource("9_lhr70")
 packet_container = NodePath("../Containers/PacketContainer")
-request_packet_scene = ExtResource("10_lhr70")
-response_packet_scene = ExtResource("12_mwfav")
+packet_scene = ExtResource("10_lhr70")
+red_material = ExtResource("15_cvmbd")
+green_material = ExtResource("16_ft6cd")

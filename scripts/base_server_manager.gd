@@ -15,10 +15,14 @@ func send_packets_from(start_server):
 			continue
 		var connection = Connection.new(start_server, end_server)
 		var request_packet = packet_factory.spawn_new_packet(
-			Globals.PacketType.REQUEST, start_server, end_server, connection)
+			Globals.Protocol.HTTP, 
+			Globals.PacketType.REQUEST,
+			start_server,
+			end_server, 
+			connection)
 		request_packet.packet_reached.connect(
-			mappings.get_manager_for_server_type(end_server.type).on_request_packet_reached)
+			mappings.get_manager_for_server_type(end_server.type).on_request_packet_received)
 		request_packet.send()
 
-func on_request_packet_reached(packet, start_server, end_server):
+func on_request_packet_received(_packet):
 	push_error("Abstract method 'process_request' must be implemented by subclass")

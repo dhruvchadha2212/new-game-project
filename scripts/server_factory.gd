@@ -10,8 +10,8 @@ func spawn_server(server_type: Globals.ServerType, camera: Camera3D, id: String 
 		id = str(Time.get_ticks_usec())
 	new_server.id = id
 	new_server.camera = camera
-	new_server.global_position = position
 	server_container.add_child(new_server)
+	new_server.global_position = position
 	print("Spawned new server with ID:", new_server.id)
 	return new_server
 
