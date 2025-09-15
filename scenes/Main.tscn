@@ -68,10 +68,10 @@ text = "ADD LOAD
 BALANCER"
 
 [node name="PlaceWireButton" type="Button" parent="Control/CanvasLayer"]
-offset_left = 948.0
-offset_top = 139.0
-offset_right = 1103.0
-offset_bottom = 207.0
+offset_left = 865.0
+offset_top = 137.0
+offset_right = 972.0
+offset_bottom = 205.0
 text = "PLACE WIRE"
 
 [node name="SaveButton" type="Button" parent="Control/CanvasLayer"]
@@ -95,14 +95,31 @@ offset_right = 1080.0
 offset_bottom = 369.0
 text = "SEND PACKET"
 
-[node name="UIManager" type="Node" parent="Control" node_paths=PackedStringArray("server_factory", "save_manager", "load_manager", "add_service_button", "add_load_balancer_button", "place_wire_button", "save_button", "load_button", "send_packet_button", "camera")]
+[node name="RemoveWireButton" type="Button" parent="Control/CanvasLayer"]
+offset_left = 1000.0
+offset_top = 136.0
+offset_right = 1121.0
+offset_bottom = 196.0
+text = "REMOVE  WIRE"
+
+[node name="FreeDragButton" type="Button" parent="Control/CanvasLayer"]
+offset_left = 777.0
+offset_top = 53.0
+offset_right = 842.0
+offset_bottom = 111.0
+text = "FREE
+DRAG"
+
+[node name="UIManager" type="Node" parent="Control" node_paths=PackedStringArray("server_factory", "save_manager", "load_manager", "free_drag_button", "add_service_button", "add_load_balancer_button", "place_wire_button", "remove_wire_button", "save_button", "load_button", "send_packet_button", "camera")]
 script = ExtResource("5_nxtc6")
 server_factory = NodePath("../../ServerFactory")
 save_manager = NodePath("../../SaveAndLoad/SaveManager")
 load_manager = NodePath("../../SaveAndLoad/LoadManager")
+free_drag_button = NodePath("../CanvasLayer/FreeDragButton")
 add_service_button = NodePath("../CanvasLayer/AddServiceButton")
 add_load_balancer_button = NodePath("../CanvasLayer/AddLoadBalancerButton")
 place_wire_button = NodePath("../CanvasLayer/PlaceWireButton")
+remove_wire_button = NodePath("../CanvasLayer/RemoveWireButton")
 save_button = NodePath("../CanvasLayer/SaveButton")
 load_button = NodePath("../CanvasLayer/LoadButton")
 send_packet_button = NodePath("../CanvasLayer/SendPacketButton")

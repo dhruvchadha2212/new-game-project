@@ -1,4 +1,4 @@
-extends Node3D
+extends StaticBody3D
 
 var start_server: Node = null
 var end_server: Node = null
@@ -6,11 +6,6 @@ var camera: Camera3D
 var dragging = false
 
 var mesh_instance: MeshInstance3D = null
-
-func _ready():
-	mesh_instance = MeshInstance3D.new()
-	mesh_instance.mesh = CylinderMesh.new()
-	add_child(mesh_instance)
 
 func fix_wire_start(server: Node, cam: Camera3D):
 	start_server = server

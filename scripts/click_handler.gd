@@ -17,6 +17,8 @@ func _unhandled_input(event):
 			_toggle_cube_drag(event)
 		if Globals.current_mode ==  Globals.InteractionMode.PLACE_WIRE:
 			_toggle_wire_placement(event)
+		if Globals.current_mode ==  Globals.InteractionMode.REMOVE_WIRE:
+			_toggle_wire_removal(event)
 		if Globals.current_mode == Globals.InteractionMode.SEND_PACKET:
 			_trigger_packets(event)
  
@@ -43,6 +45,13 @@ func _toggle_wire_placement(event):
 				active_wire.fix_wire_end(raycast_result.collider)
 				active_wire = null
 
+func _toggle_wire_removal(event):
+	if !event.pressed:
+		var raycast_result = _raycast_from_mouse()
+		if raycast_result and raycast_result.collider:
+			_delete_wire(raycast_result.collider)
+			
+
 func _trigger_packets(event):
 	if event.pressed:
 		var raycast_result = _raycast_from_mouse()
@@ -55,4 +64,10 @@ func _raycast_from_mouse():
 	var origin = camera.project_ray_origin(mouse_pos)
 	var end = origin + camera.project_ray_normal(mouse_pos) * 1000
 	var query = PhysicsRayQueryParameters3D.create(origin, end)
+	query.collision_mask = Globals.current_collision_mask
 	return get_world_3d().direct_space_state.intersect_ray(query)
+
+func _delete_wire(wire):
+	wire.start_server.connected_wires.erase(wire)
+	wire.end_server.connected_wires.erase(wire)
+	wire.queue_free()
