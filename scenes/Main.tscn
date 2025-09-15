@@ -110,7 +110,15 @@ offset_bottom = 111.0
 text = "FREE
 DRAG"
 
-[node name="UIManager" type="Node" parent="Control" node_paths=PackedStringArray("server_factory", "save_manager", "load_manager", "free_drag_button", "add_service_button", "add_load_balancer_button", "place_wire_button", "remove_wire_button", "save_button", "load_button", "send_packet_button", "camera")]
+[node name="RemoveServerButton" type="Button" parent="Control/CanvasLayer"]
+offset_left = 762.0
+offset_top = 138.0
+offset_right = 836.0
+offset_bottom = 192.0
+text = "REMOVE
+SERVER"
+
+[node name="UIManager" type="Node" parent="Control" node_paths=PackedStringArray("server_factory", "save_manager", "load_manager", "free_drag_button", "add_service_button", "add_load_balancer_button", "remove_server_button", "place_wire_button", "remove_wire_button", "save_button", "load_button", "send_packet_button", "camera")]
 script = ExtResource("5_nxtc6")
 server_factory = NodePath("../../ServerFactory")
 save_manager = NodePath("../../SaveAndLoad/SaveManager")
@@ -118,6 +126,7 @@ load_manager = NodePath("../../SaveAndLoad/LoadManager")
 free_drag_button = NodePath("../CanvasLayer/FreeDragButton")
 add_service_button = NodePath("../CanvasLayer/AddServiceButton")
 add_load_balancer_button = NodePath("../CanvasLayer/AddLoadBalancerButton")
+remove_server_button = NodePath("../CanvasLayer/RemoveServerButton")
 place_wire_button = NodePath("../CanvasLayer/PlaceWireButton")
 remove_wire_button = NodePath("../CanvasLayer/RemoveWireButton")
 save_button = NodePath("../CanvasLayer/SaveButton")

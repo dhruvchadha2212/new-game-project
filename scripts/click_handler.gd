@@ -21,6 +21,8 @@ func _unhandled_input(event):
 			_toggle_wire_removal(event)
 		if Globals.current_mode == Globals.InteractionMode.SEND_PACKET:
 			_trigger_packets(event)
+		if Globals.current_mode == Globals.InteractionMode.REMOVE_SERVER:
+			_remove_server(event)
  
 func _toggle_cube_drag(event):
 	if event.pressed:
@@ -59,6 +61,12 @@ func _trigger_packets(event):
 			dragged_object = raycast_result.collider
 			service_manager.send_packets_from(dragged_object)
 
+func _remove_server(event):
+	if !event.pressed:
+		var raycast_result = _raycast_from_mouse()
+		if raycast_result and raycast_result.collider:
+			_delete_server(raycast_result.collider)
+
 func _raycast_from_mouse():
 	var mouse_pos = get_viewport().get_mouse_position()
 	var origin = camera.project_ray_origin(mouse_pos)
@@ -71,3 +79,8 @@ func _delete_wire(wire):
 	wire.start_server.connected_wires.erase(wire)
 	wire.end_server.connected_wires.erase(wire)
 	wire.queue_free()
+
+func _delete_server(server):
+	for wire in server.connected_wires.duplicate():
+		_delete_wire(wire)
+	server.queue_free()

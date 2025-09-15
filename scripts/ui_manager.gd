@@ -7,6 +7,7 @@ extends Node
 @export var free_drag_button: Button
 @export var add_service_button: Button
 @export var add_load_balancer_button: Button
+@export var remove_server_button: Button
 @export var place_wire_button: Button
 @export var remove_wire_button: Button
 @export var save_button: Button
@@ -19,6 +20,7 @@ func _ready():
 	free_drag_button.pressed.connect(_on_free_drag)
 	add_service_button.pressed.connect(_on_add_service)
 	add_load_balancer_button.pressed.connect(_on_add_load_balancer)
+	remove_server_button.pressed.connect(_on_remove_server)
 	place_wire_button.pressed.connect(_on_place_wire)
 	remove_wire_button.pressed.connect(_on_remove_wire)
 	save_button.pressed.connect(_on_save)
@@ -34,6 +36,10 @@ func _on_add_service():
 
 func _on_add_load_balancer():
 	server_factory.spawn_server(Globals.ServerType.LOAD_BALANCER, camera)
+
+func _on_remove_server():
+	Globals.current_mode = Globals.InteractionMode.REMOVE_SERVER
+	Globals.current_collision_mask = Globals.COLLISION_MASK_SERVERS
 
 func _on_place_wire():
 	Globals.current_mode = Globals.InteractionMode.PLACE_WIRE

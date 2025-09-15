@@ -1,6 +1,6 @@
 extends Node
 
-enum InteractionMode { DRAG, PLACE_WIRE, REMOVE_WIRE, SEND_PACKET }
+enum InteractionMode { DRAG, PLACE_WIRE, REMOVE_WIRE, SEND_PACKET, REMOVE_SERVER }
 var current_mode: InteractionMode = InteractionMode.DRAG
 
 enum ServerType { SERVICE, LOAD_BALANCER, DATABASE, CACHE, QUEUE }
