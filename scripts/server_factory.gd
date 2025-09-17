@@ -3,6 +3,7 @@ extends Node
 @export var server_container: Node
 @export var service_scene: PackedScene
 @export var load_balancer_scene: PackedScene
+@export var client_scene: PackedScene
 
 func spawn_server(server_type: Globals.ServerType, camera: Camera3D, id: String = "-1", position: Vector3 = Vector3.ZERO):
 	var new_server = get_server_scene_from_server_type(server_type).instantiate()
@@ -21,3 +22,5 @@ func get_server_scene_from_server_type(server_type):
 			return service_scene
 		Globals.ServerType.LOAD_BALANCER:
 			return load_balancer_scene
+		Globals.ServerType.CLIENT:
+			return client_scene

@@ -8,6 +8,9 @@ var dragging = false
 var connected_wires = []
 var type: Globals.ServerType
 
+func _ready():
+	_add_name_label()
+
 func add_wire(wire):
 	connected_wires.append(wire)
 
@@ -42,3 +45,18 @@ func _move_cube():
 func _move_attached_wires():
 	for wire in connected_wires:
 		wire.update_cylinder(wire.start_server.global_position, wire.end_server.global_position)
+
+func _add_name_label():
+	var name_label = Label3D.new()
+	name_label.text = self.id
+
+	name_label.position = Vector3(0.5, 0.7, 0.5) # Position it above the server cube
+	name_label.font_size = 42
+	name_label.outline_size = 12
+	name_label.modulate = Color(1, 1, 1, 0.8)
+	name_label.outline_modulate = Color.BLACK
+	
+	# Make the label always face the camera
+	name_label.billboard = BaseMaterial3D.BILLBOARD_ENABLED
+	
+	add_child(name_label)

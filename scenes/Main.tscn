@@ -1,4 +1,4 @@
-[gd_scene load_steps=20 format=3 uid="uid://qm1ilyylwca5"]
+[gd_scene load_steps=21 format=3 uid="uid://qm1ilyylwca5"]
 
 [ext_resource type="Script" uid="uid://u1gm6ms462um" path="res://scripts/camera.gd" id="1_elqb8"]
 [ext_resource type="PackedScene" uid="uid://ddppfk6w8r3gh" path="res://scenes/Service.tscn" id="2_rarhs"]
@@ -12,6 +12,7 @@
 [ext_resource type="Script" uid="uid://bs1j3vkh7no4" path="res://scripts/load_manager.gd" id="9_q8u5g"]
 [ext_resource type="PackedScene" uid="uid://k6o7l8po77kv" path="res://scenes/Packet.tscn" id="10_lhr70"]
 [ext_resource type="Script" uid="uid://bq80dtq40uplk" path="res://scripts/load_balancer_manager.gd" id="11_wp0k4"]
+[ext_resource type="PackedScene" uid="uid://b3lbedae2sc6b" path="res://scenes/Client.tscn" id="13_ft6cd"]
 [ext_resource type="Script" uid="uid://difkk1albi2du" path="res://scripts/server_factory.gd" id="13_mwfav"]
 [ext_resource type="PackedScene" uid="uid://d1p531qtpnpmh" path="res://scenes/LoadBalancer.tscn" id="13_qmy6f"]
 [ext_resource type="Material" uid="uid://bxjjeo32omtcw" path="res://materials/red_material.tres" id="15_cvmbd"]
@@ -53,17 +54,17 @@ offset_bottom = 40.0
 [node name="CanvasLayer" type="CanvasLayer" parent="Control"]
 
 [node name="AddServiceButton" type="Button" parent="Control/CanvasLayer"]
-offset_left = 878.0
-offset_top = 42.0
-offset_right = 977.0
-offset_bottom = 115.0
+offset_left = 856.0
+offset_top = 457.0
+offset_right = 965.0
+offset_bottom = 530.0
 text = "ADD SERVICE"
 
 [node name="AddLoadBalancerButton" type="Button" parent="Control/CanvasLayer"]
-offset_left = 1010.0
-offset_top = 40.0
-offset_right = 1119.0
-offset_bottom = 113.0
+offset_left = 1004.0
+offset_top = 458.0
+offset_right = 1113.0
+offset_bottom = 531.0
 text = "ADD LOAD 
 BALANCER"
 
@@ -118,12 +119,33 @@ offset_bottom = 192.0
 text = "REMOVE
 SERVER"
 
-[node name="UIManager" type="Node" parent="Control" node_paths=PackedStringArray("server_factory", "save_manager", "load_manager", "free_drag_button", "add_service_button", "add_load_balancer_button", "remove_server_button", "place_wire_button", "remove_wire_button", "save_button", "load_button", "send_packet_button", "camera")]
+[node name="ServerNameInput" type="LineEdit" parent="Control/CanvasLayer"]
+offset_left = 875.0
+offset_top = 409.0
+offset_right = 996.0
+offset_bottom = 440.0
+
+[node name="WarningLabel" type="Label" parent="Control/CanvasLayer"]
+visible = false
+offset_left = 1009.0
+offset_top = 414.0
+offset_right = 1049.0
+offset_bottom = 437.0
+
+[node name="AddClientButton" type="Button" parent="Control/CanvasLayer"]
+offset_left = 731.0
+offset_top = 463.0
+offset_right = 832.0
+offset_bottom = 529.0
+text = "ADD CLIENT"
+
+[node name="UIManager" type="Node" parent="Control" node_paths=PackedStringArray("server_factory", "save_manager", "load_manager", "free_drag_button", "add_client_button", "add_service_button", "add_load_balancer_button", "remove_server_button", "place_wire_button", "remove_wire_button", "save_button", "load_button", "send_packet_button", "server_name_input", "warning_label", "camera")]
 script = ExtResource("5_nxtc6")
 server_factory = NodePath("../../ServerFactory")
 save_manager = NodePath("../../SaveAndLoad/SaveManager")
 load_manager = NodePath("../../SaveAndLoad/LoadManager")
 free_drag_button = NodePath("../CanvasLayer/FreeDragButton")
+add_client_button = NodePath("../CanvasLayer/AddClientButton")
 add_service_button = NodePath("../CanvasLayer/AddServiceButton")
 add_load_balancer_button = NodePath("../CanvasLayer/AddLoadBalancerButton")
 remove_server_button = NodePath("../CanvasLayer/RemoveServerButton")
@@ -132,6 +154,8 @@ remove_wire_button = NodePath("../CanvasLayer/RemoveWireButton")
 save_button = NodePath("../CanvasLayer/SaveButton")
 load_button = NodePath("../CanvasLayer/LoadButton")
 send_packet_button = NodePath("../CanvasLayer/SendPacketButton")
+server_name_input = NodePath("../CanvasLayer/ServerNameInput")
+warning_label = NodePath("../CanvasLayer/WarningLabel")
 camera = NodePath("../../Camera3D")
 
 [node name="ClickHandler" type="Node3D" parent="." node_paths=PackedStringArray("wire_container", "packet_manager", "service_manager")]
@@ -189,6 +213,7 @@ script = ExtResource("13_mwfav")
 server_container = NodePath("../Containers/ServerContainer")
 service_scene = ExtResource("2_rarhs")
 load_balancer_scene = ExtResource("13_qmy6f")
+client_scene = ExtResource("13_ft6cd")
 
 [node name="PacketFactory" type="Node" parent="." node_paths=PackedStringArray("packet_container")]
 script = ExtResource("9_lhr70")
