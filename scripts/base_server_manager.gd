@@ -19,10 +19,8 @@ func send_packets_from(start_server):
 			Globals.PacketType.REQUEST,
 			start_server,
 			end_server, 
-			connection)
+			connection,
+			str(Time.get_ticks_msec()) + "_" + str(randi() % 1000))
 		request_packet.packet_reached.connect(
-			mappings.get_manager_for_server_type(end_server.type).on_request_packet_received)
+			mappings.get_manager_for_server_type(end_server.type).handle_request)
 		request_packet.send()
-
-func on_request_packet_received(_packet):
-	push_error("Abstract method 'process_request' must be implemented by subclass")

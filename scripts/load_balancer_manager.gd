@@ -4,7 +4,7 @@ extends "res://scripts/base_server_manager.gd"
 
 var connection_relay_mapping = {} # forward connection to previous connection
 
-func on_request_packet_received(request_packet):
+func handle_request(request_packet):
 	var valid_end_servers = []
 	for wire in request_packet.end_server.connected_wires:
 		var valid_end_server = null
@@ -32,10 +32,10 @@ func on_request_packet_received(request_packet):
 		connection)
 	connection_relay_mapping[packet.connection] = request_packet.connection
 	packet.packet_reached.connect(
-		mappings.get_manager_for_server_type(end_server.type).on_request_packet_received)
+		mappings.get_manager_for_server_type(end_server.type).handle_request)
 	packet.send()
 
-func on_response_packet_received(response_packet):
+func handle_response(response_packet):
 	var previous_connection = connection_relay_mapping[response_packet.connection]
 	var start_server = previous_connection.end_server
 	var end_server = previous_connection.start_server
@@ -46,5 +46,5 @@ func on_response_packet_received(response_packet):
 		end_server, 
 		previous_connection)
 	packet.packet_reached.connect(
-		mappings.get_manager_for_server_type(end_server.type).on_response_packet_received)
+		mappings.get_manager_for_server_type(end_server.type).handle_response)
 	packet.send()

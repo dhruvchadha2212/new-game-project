@@ -7,9 +7,20 @@ var camera: Camera3D
 var dragging = false
 var connected_wires = []
 var type: Globals.ServerType
+## For now, one server will have one handling for a request. 
+## In other words, only 1 API is exposed per server right now in this simulation.
+var request_workflow: RequestWorkflow
+var pending_workflows = {}
 
 func _ready():
+	add_to_group("servers")
 	_add_name_label()
+	request_workflow = RequestWorkflow.new(_get_upstream_server_ids())
+
+func _get_upstream_server_ids():
+	var architecture_config = Globals.architecture_config.get("servers", {})
+	var server_config = architecture_config.get(id, {})
+	return server_config.get("dependencies", [])
 
 func add_wire(wire):
 	connected_wires.append(wire)

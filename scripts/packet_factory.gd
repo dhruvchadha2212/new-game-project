@@ -14,7 +14,8 @@ func spawn_new_packet(
 	packet_type: Globals.PacketType, 
 	start_server: Node, 
 	end_server: Node, 
-	connection: Connection):
+	connection: Connection,
+	correlation_id: String):
 		var packet = packet_scene.instantiate()
 		packet.id = _initialize_packet_id();
 		packet.start_server = start_server
@@ -22,6 +23,7 @@ func spawn_new_packet(
 		packet.connection = connection
 		packet.protocol = protocol
 		packet.type = packet_type
+		packet.correlation_id = correlation_id
 		packet_container.add_child(packet)
 		packet.get_node("MeshInstance3D").material_override = _get_material(packet_type)
 		return packet

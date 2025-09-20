@@ -3,7 +3,7 @@ extends Node3D
 ## Responsible for moving an instantiated packet_scene from start node to end node
 ## and emitting a signal when done.
 
-signal packet_reached(packet, start_server, end_server)
+signal packet_reached(packet)
 
 var start_server: Node = null
 var end_server: Node = null
@@ -14,6 +14,7 @@ var type: Globals.PacketType
 var connection: Connection
 var reached = false
 var protocol: Globals.Protocol
+var correlation_id: String
 
 # Call this to initialize and begin movement
 func send():

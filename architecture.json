@@ -1,0 +1,13 @@
+{
+  "servers": {
+	"user_service": {
+	  "dependencies": ["auth_service", "user_database"]
+	},
+	"auth_service": {
+	  "dependencies": []
+	},
+	"user_database": {
+	  "dependencies": []
+	}
+  }
+}
