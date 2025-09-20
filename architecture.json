@@ -4,7 +4,7 @@
 	  "dependencies": ["auth_service", "user_database"]
 	},
 	"auth_service": {
-	  "dependencies": []
+	  "dependencies": ["auth_database", "iam_database"]
 	},
 	"user_database": {
 	  "dependencies": []

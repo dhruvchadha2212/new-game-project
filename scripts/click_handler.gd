@@ -6,7 +6,6 @@ extends Node3D
 @export var wire_scene: PackedScene
 @export var wire_container: Node
 @export var packet_manager: Node
-@export var service_manager: Node
 
 var dragged_object: Node = null
 var active_wire = null
@@ -59,7 +58,8 @@ func _trigger_packets(event):
 		var raycast_result = _raycast_from_mouse()
 		if raycast_result and raycast_result.collider:
 			dragged_object = raycast_result.collider
-			service_manager.send_packets_from(dragged_object)
+			if dragged_object.is_in_group("servers") and dragged_object.type == Globals.ServerType.CLIENT:
+				dragged_object.send_initial_request()
 
 func _remove_server(event):
 	if !event.pressed:

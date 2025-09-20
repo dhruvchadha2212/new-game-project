@@ -1,6 +1,6 @@
 extends Resource
 
-class_name RequestWorkflow
+class_name ServiceRequestWorkflow
 
 var upstream_ids: Array = []
 

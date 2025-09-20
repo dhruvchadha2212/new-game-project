@@ -1,6 +1,6 @@
 extends StaticBody3D
 
-## Responsible for dragging cube and its connected wires using mouse input.
+@export var packet_factory: Node
 
 var id: String
 var camera: Camera3D
@@ -9,19 +9,38 @@ var connected_wires = []
 var type: Globals.ServerType
 ## For now, one server will have one handling for a request. 
 ## In other words, only 1 API is exposed per server right now in this simulation.
-var request_workflow: RequestWorkflow
+var request_workflow: ServiceRequestWorkflow
 var pending_workflows = {}
 
 func _ready():
 	add_to_group("servers")
 	_add_name_label()
-	request_workflow = RequestWorkflow.new(_get_upstream_server_ids())
+
+func handle_packet(packet):
+	match packet.type:
+		Globals.PacketType.REQUEST:
+			handle_request(packet)
+		Globals.PacketType.RESPONSE:
+			handle_response(packet)
+
+func handle_request(request_packet):
+	pass # To be overridden by child classes
+
+func handle_response(response_packet):
+	pass # To be overridden by child classes
 
 func _get_upstream_server_ids():
 	var architecture_config = Globals.architecture_config.get("servers", {})
 	var server_config = architecture_config.get(id, {})
 	return server_config.get("dependencies", [])
 
+func _find_server_by_id(server_id):
+	for server in get_tree().get_nodes_in_group("servers"):
+		if server.id == server_id:
+			return server
+	return null
+
+#region Visual Logic
 func add_wire(wire):
 	connected_wires.append(wire)
 
@@ -71,3 +90,4 @@ func _add_name_label():
 	name_label.billboard = BaseMaterial3D.BILLBOARD_ENABLED
 	
 	add_child(name_label)
+#endregion
