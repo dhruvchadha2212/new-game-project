@@ -12,8 +12,8 @@
 [ext_resource type="PackedScene" uid="uid://b3lbedae2sc6b" path="res://scenes/Client.tscn" id="13_ft6cd"]
 [ext_resource type="Script" uid="uid://difkk1albi2du" path="res://scripts/server_factory.gd" id="13_mwfav"]
 [ext_resource type="PackedScene" uid="uid://d1p531qtpnpmh" path="res://scenes/LoadBalancer.tscn" id="13_qmy6f"]
-[ext_resource type="Material" uid="uid://bxjjeo32omtcw" path="res://materials/red_material.tres" id="15_cvmbd"]
-[ext_resource type="Material" uid="uid://cgn21elm1ituv" path="res://materials/green_material.tres" id="16_ft6cd"]
+[ext_resource type="Material" uid="uid://bxjjeo32omtcw" path="res://materials/request_packet_material.tres" id="15_cvmbd"]
+[ext_resource type="Material" uid="uid://cgn21elm1ituv" path="res://materials/response_packet_material.tres" id="16_ft6cd"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_4xowi"]
 sky_horizon_color = Color(0.662243, 0.671743, 0.686743, 1)
@@ -197,5 +197,5 @@ packet_factory = NodePath("../PacketFactory")
 script = ExtResource("9_lhr70")
 packet_container = NodePath("../Containers/PacketContainer")
 packet_scene = ExtResource("10_lhr70")
-red_material = ExtResource("15_cvmbd")
-green_material = ExtResource("16_ft6cd")
+request_packet_material = ExtResource("15_cvmbd")
+response_packet_material = ExtResource("16_ft6cd")

@@ -6,8 +6,8 @@ extends Node
 @export var packet_container: Node
 @export var packet_scene: PackedScene
 
-@export var red_material: StandardMaterial3D
-@export var green_material: StandardMaterial3D
+@export var request_packet_material: StandardMaterial3D
+@export var response_packet_material: StandardMaterial3D
 
 func spawn_new_packet(
 	protocol: Globals.Protocol, 
@@ -36,6 +36,6 @@ func _initialize_packet_id():
 func _get_material(packet_type):
 	match packet_type:
 		Globals.PacketType.REQUEST:
-			return red_material
+			return request_packet_material
 		Globals.PacketType.RESPONSE:
-			return green_material
+			return response_packet_material
