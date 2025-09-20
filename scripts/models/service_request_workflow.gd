@@ -5,12 +5,10 @@ class_name ServiceRequestWorkflow
 var upstream_ids: Array = []
 
 var original_request_packet: Node
-var current_upstream_index: int = 0
+var current_upstream_index: int = -1
 
-func _init(upstream_ids: Array):
+func _init(upstream_ids: Array, packet: Node):
 	self.upstream_ids = upstream_ids
-
-func set_original_request_packet(packet: Node):
 	self.original_request_packet = packet
 
 func get_next_upstream_id() -> String:

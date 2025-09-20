@@ -4,35 +4,31 @@ func _init():
 	self.type = Globals.ServerType.SERVICE
 
 func handle_request(request_packet):
-	var workflow = ServiceRequestWorkflow.new(_get_upstream_server_ids())
-	workflow.set_original_request_packet(request_packet)
-	pending_workflows[request_packet.correlation_id] = workflow
-	_process_workflow_step(workflow)
+	var correlation_id = request_packet.correlation_id
+	if not pending_workflows.has(correlation_id):
+		pending_workflows[request_packet.correlation_id] = ServiceRequestWorkflow.new(_get_upstream_server_ids(), request_packet)
+	var workflow = pending_workflows[request_packet.correlation_id]
+	## sending back an ack response
+	_create_and_send_packet(
+		request_packet.end_server,
+		request_packet.start_server,
+		request_packet.correlation_id,
+		Globals.PacketType.RESPONSE)
+	## imagine below method being called in async manner using queues, after the ack response
+	_process_workflow(workflow)
 
 func handle_response(response_packet):
-	var correlation_id = response_packet.correlation_id
-	if pending_workflows.has(correlation_id):
-		var workflow = pending_workflows[correlation_id]
-		workflow.advance_to_next_upstream()
-		_process_workflow_step(workflow)
+	print("Ack received by " + response_packet.end_server.id)
 
-func _send_response(request_packet):
-	var start_server = request_packet.end_server
-	var end_server = request_packet.start_server
-	var response_packet = packet_factory.spawn_new_packet(
-		Globals.Protocol.HTTP,
-		Globals.PacketType.RESPONSE, 
-		start_server,
-		end_server, 
-		request_packet.connection,
-		request_packet.correlation_id)
-	response_packet.packet_reached.connect(end_server.handle_packet)
-	response_packet.send()
-
-func _process_workflow_step(workflow: ServiceRequestWorkflow):
+func _process_workflow(workflow: ServiceRequestWorkflow):
+	workflow.advance_to_next_upstream()
 	var original_request_packet = workflow.original_request_packet
 	if workflow.is_complete():
-		_send_response(original_request_packet)
+		_create_and_send_packet(
+			original_request_packet.end_server,
+			original_request_packet.start_server,
+			original_request_packet.correlation_id,
+			Globals.PacketType.REQUEST)
 		pending_workflows.erase(original_request_packet.correlation_id)
 		return
 	var next_upstream_id = workflow.get_next_upstream_id()
@@ -42,14 +38,20 @@ func _process_workflow_step(workflow: ServiceRequestWorkflow):
 		printerr("upstream server not found: ", next_upstream_id)
 		return
 	var start_server = original_request_packet.end_server
-	var connection = Connection.new(start_server, next_upstream_server)
-	var upstream_packet = packet_factory.spawn_new_packet(
-		Globals.Protocol.HTTP, 
-		Globals.PacketType.REQUEST,
+	_create_and_send_packet(
 		start_server, 
 		next_upstream_server, 
+		original_request_packet.correlation_id, 
+		Globals.PacketType.REQUEST)
+
+func _create_and_send_packet(start_server, end_server, correlation_id, packet_type):
+	var connection = Connection.new(start_server, end_server)
+	var packet = packet_factory.spawn_new_packet(
+		Globals.Protocol.HTTP, 
+		packet_type,
+		start_server, 
+		end_server, 
 		connection, 
-		original_request_packet.correlation_id)
-		
-	upstream_packet.packet_reached.connect(next_upstream_server.handle_packet)
-	upstream_packet.send()
+		correlation_id)
+	packet.packet_reached.connect(end_server.handle_packet)
+	packet.send()

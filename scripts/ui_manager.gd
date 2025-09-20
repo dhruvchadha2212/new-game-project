@@ -38,12 +38,15 @@ func _on_free_drag():
 
 func _on_add_client():
 	_add_server(Globals.ServerType.CLIENT)
+	Globals.current_mode = Globals.InteractionMode.DRAG
 
 func _on_add_service():
 	_add_server(Globals.ServerType.SERVICE)
+	Globals.current_mode = Globals.InteractionMode.DRAG
 
 func _on_add_load_balancer():
 	_add_server(Globals.ServerType.LOAD_BALANCER)
+	Globals.current_mode = Globals.InteractionMode.DRAG
 
 func _on_remove_server():
 	Globals.current_mode = Globals.InteractionMode.REMOVE_SERVER

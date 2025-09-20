@@ -52,10 +52,10 @@ func on_drag_end():
 
 func _process(_delta):
 	if dragging:
-		_move_cube()
+		_move_server()
 		_move_attached_wires()
 
-func _move_cube():
+func _move_server():
 	var mouse_pos = get_viewport().get_mouse_position()
 	var from = camera.project_ray_origin(mouse_pos)
 	var dir = camera.project_ray_normal(mouse_pos)
@@ -80,7 +80,7 @@ func _add_name_label():
 	var name_label = Label3D.new()
 	name_label.text = self.id
 
-	name_label.position = Vector3(0.5, 0.7, 0.5) # Position it above the server cube
+	name_label.position = Vector3(0.5, 0.7, 0.5) # Position it above the server server
 	name_label.font_size = 42
 	name_label.outline_size = 12
 	name_label.modulate = Color(1, 1, 1, 0.8)

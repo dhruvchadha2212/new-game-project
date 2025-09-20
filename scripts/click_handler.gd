@@ -13,7 +13,7 @@ var active_wire = null
 func _unhandled_input(event):
 	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT:
 		if Globals.current_mode == Globals.InteractionMode.DRAG:
-			_toggle_cube_drag(event)
+			_toggle_server_drag(event)
 		if Globals.current_mode ==  Globals.InteractionMode.PLACE_WIRE:
 			_toggle_wire_placement(event)
 		if Globals.current_mode ==  Globals.InteractionMode.REMOVE_WIRE:
@@ -23,7 +23,7 @@ func _unhandled_input(event):
 		if Globals.current_mode == Globals.InteractionMode.REMOVE_SERVER:
 			_remove_server(event)
  
-func _toggle_cube_drag(event):
+func _toggle_server_drag(event):
 	if event.pressed:
 		var raycast_result = _raycast_from_mouse()
 		if raycast_result and raycast_result.collider:

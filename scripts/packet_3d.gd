@@ -19,15 +19,15 @@ var correlation_id: String
 # Call this to initialize and begin movement
 func send():
 	# Check for wire connection
-	if are_cubes_connected(start_server, end_server) == null:
-		print("Packet cannot travel: no wire between cubes %s and %s" % [str(start_server.cube_id), str(end_server.cube_id)])
+	if are_servers_connected(start_server, end_server) == null:
+		print("Packet cannot travel: no wire between servers %s and %s" % [str(start_server.server_id), str(end_server.server_id)])
 		queue_free()
 		return
 	percent = 0.0
 	global_position = start_server.global_position
 
 # Helper to search for wire
-func are_cubes_connected(a: Node, b: Node) -> bool:
+func are_servers_connected(a: Node, b: Node) -> bool:
 	for wire_candidate in a.connected_wires:
 		if wire_candidate.start_server == a and wire_candidate.end_server == b:
 			return true
