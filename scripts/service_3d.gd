@@ -55,3 +55,8 @@ func _create_and_send_packet(start_server, end_server, correlation_id, packet_ty
 		correlation_id)
 	packet.packet_reached.connect(end_server.handle_packet)
 	packet.send()
+
+func _get_upstream_server_ids():
+	var architecture_config = Globals.architecture_config.get("servers", {})
+	var server_config = architecture_config.get(id, {})
+	return server_config.get("dependencies", [])

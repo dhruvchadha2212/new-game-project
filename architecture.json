@@ -8,6 +8,9 @@
 	},
 	"user_database": {
 	  "dependencies": []
+	},
+	"LB1": {
+		"upstream_servers": ["S1", "S2"]
 	}
   }
 }

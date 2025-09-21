@@ -29,11 +29,6 @@ func handle_request(request_packet):
 func handle_response(response_packet):
 	pass # To be overridden by child classes
 
-func _get_upstream_server_ids():
-	var architecture_config = Globals.architecture_config.get("servers", {})
-	var server_config = architecture_config.get(id, {})
-	return server_config.get("dependencies", [])
-
 func _find_server_by_id(server_id):
 	for server in get_tree().get_nodes_in_group("servers"):
 		if server.id == server_id:

@@ -28,4 +28,4 @@ func send_initial_request():
 	request_packet.send()
 
 func handle_response(response_packet):
-	print("Client '", id, "' received a final response for correlation ID: ", response_packet.correlation_id)
+	print("Ack received for correlation ID: ", response_packet.correlation_id)
