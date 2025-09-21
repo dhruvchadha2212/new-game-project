@@ -65,6 +65,7 @@ func _on_send_packet():
 
 func _on_save():
 	save_manager.save_scene_state()
+	save_manager.save_architecture_state()
 
 func _on_load():
 	load_manager.load_scene_state()

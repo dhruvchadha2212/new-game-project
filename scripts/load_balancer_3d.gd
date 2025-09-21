@@ -72,4 +72,4 @@ func _route_callback_to_client(callback_request_packet):
 func _get_upstream_server_ids():
 	var architecture_config = Globals.architecture_config.get("servers", {})
 	var server_config = architecture_config.get(id, {})
-	return server_config.get("upstream_servers", [])
+	return server_config.get("upstream_server_ids", [])
